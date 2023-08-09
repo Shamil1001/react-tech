@@ -6,13 +6,12 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const tasks = [
-  { id: "1", content: "First task" },
-  { id: "2", content: "Second task" },
-  { id: "3", content: "Third task" },
-  { id: "4", content: "Fourth task" },
-  { id: "5", content: "Fifth task" },
+  { id: "1", content: "Math" },
+  { id: "2", content: "Chemistry" },
+  { id: "3", content: "Biology" },
+  { id: "4", content: "Physics" },
+  { id: "5", content: "History" },
 ];
-
 const taskStatus = {
   subjects: {
     name: "Subjects",
@@ -81,9 +80,15 @@ const onDragEnd = (result: any, columns: any, setColumns: any) => {
   }
 };
 
+interface IUser {
+  email: string;
+  password: string;
+  uid: string;
+}
+
 function WeekTable() {
   const [columns, setColumns] = useState(taskStatus);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     auth.onAuthStateChanged((user: any) => {
@@ -101,7 +106,8 @@ function WeekTable() {
           .filter((doc: any) => {
             return doc.user === auth.currentUser?.email;
           });
-        console.log(fetchedtable);
+        // setColumns(fetchedtable[0].taskStatus);
+        console.log(fetchedtable[0].taskStatus);
         //   setPosts([...posts, { postData: fetchedPosts, documentIds: ids }]);
       }
     );
@@ -110,7 +116,11 @@ function WeekTable() {
     };
   }, [db]);
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    // await updateDoc(doc(db, "users", `${docId}`), {
+    //     posts: updatedPosts,
+    //   });
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -122,6 +132,7 @@ function WeekTable() {
         }}
       >
         <h1>{user && user.email}</h1>
+        {/* <Button onClick={() =>}>Log out</Button> */}
       </div>
       <div style={{ display: "flex", justifyContent: "left", height: "100%" }}>
         <DragDropContext
