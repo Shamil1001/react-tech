@@ -20,30 +20,37 @@ const taskStatus = {
   subjects: {
     name: "Subjects",
     items: tasks,
+    index: 0,
   },
   mon: {
     name: "Monday",
     items: [],
+    index: 1,
   },
   tue: {
     name: "Tue",
     items: [],
+    index: 2,
   },
   wed: {
     name: "Wed",
     items: [],
+    index: 3,
   },
   thu: {
     name: "Thu",
     items: [],
+    index: 4,
   },
   fri: {
     name: "Fri",
     items: [],
+    index: 5,
   },
   sat: {
     name: "Sat",
     items: [],
+    index: 6,
   },
 };
 

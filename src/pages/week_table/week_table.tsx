@@ -108,7 +108,6 @@ function WeekTable() {
           });
         // setColumns(fetchedtable[0].taskStatus);
         console.log(fetchedtable[0].taskStatus);
-        //   setPosts([...posts, { postData: fetchedPosts, documentIds: ids }]);
       }
     );
     return () => {
