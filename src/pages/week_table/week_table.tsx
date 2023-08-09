@@ -2,7 +2,7 @@
 import { auth, db } from "@/firebase";
 import { Button } from "@chakra-ui/react";
 import { onSnapshot, collection, doc, updateDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const onDragEnd = (result: any, columns: any, setColumns: any) => {
@@ -97,7 +97,7 @@ function WeekTable() {
     return () => {
       unsubscribe();
     };
-  }, [db]);
+  }, []);
 
   const handleSave = async () => {
     console.log(columns);
