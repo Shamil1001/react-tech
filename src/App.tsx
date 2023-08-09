@@ -17,7 +17,6 @@ function App() {
           <Route path="/week_table" element={<WeekTable />}></Route>
         </Routes>
       </BrowserRouter>
-      {/* <Register /> */}
     </>
   );
 }

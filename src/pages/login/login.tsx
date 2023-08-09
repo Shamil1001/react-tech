@@ -5,7 +5,7 @@ import { Input } from "@chakra-ui/react";
 import "./styles.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({
