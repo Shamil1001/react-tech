@@ -5,21 +5,21 @@ import { Input } from "@chakra-ui/react";
 import "./styles.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
-// import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, loginData.email, loginData.password)
       .then(() => {
         console.log("logged");
         //   message.success("You have been successfully logged in.", 1, () => {
-        // navigate("/week_table");
+        navigate("/week_table", { replace: true });
         //   });
       })
       .catch((error) => {
@@ -60,7 +60,9 @@ export default function Login() {
               Login
             </Button>
 
-            <p>Don't have account</p>
+            <Link to="/register">
+              <p>Don't have account</p>
+            </Link>
           </CardBody>
         </Card>
       </div>

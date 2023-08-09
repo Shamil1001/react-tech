@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { auth, db } from "@/firebase";
+import { Button } from "@chakra-ui/react";
+import { onSnapshot, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const tasks = [
@@ -11,20 +14,32 @@ const tasks = [
 ];
 
 const taskStatus = {
-  requested: {
-    name: "Requested",
+  subjects: {
+    name: "Subjects",
     items: tasks,
   },
-  toDo: {
-    name: "To do",
+  mon: {
+    name: "Monday",
     items: [],
   },
-  inProgress: {
-    name: "In Progress",
+  tue: {
+    name: "Tue",
     items: [],
   },
-  done: {
-    name: "Done",
+  wed: {
+    name: "Wed",
+    items: [],
+  },
+  thu: {
+    name: "Thu",
+    items: [],
+  },
+  fri: {
+    name: "Fri",
+    items: [],
+  },
+  sat: {
+    name: "Sat",
     items: [],
   },
 };
@@ -68,11 +83,47 @@ const onDragEnd = (result: any, columns: any, setColumns: any) => {
 
 function WeekTable() {
   const [columns, setColumns] = useState(taskStatus);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user: any) => {
+      setUser(user);
+      console.log(user.email);
+    });
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "timeTable"),
+      (snapshot: any) => {
+        const fetchedtable = snapshot.docs
+          .map((doc: any) => doc.data())
+          .filter((doc: any) => {
+            return doc.user === auth.currentUser?.email;
+          });
+        console.log(fetchedtable);
+        //   setPosts([...posts, { postData: fetchedPosts, documentIds: ids }]);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [db]);
+
+  const handleSave = () => {};
+
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       <div
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
+        <h1>{user && user.email}</h1>
+      </div>
+      <div style={{ display: "flex", justifyContent: "left", height: "100%" }}>
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
         >
@@ -87,7 +138,7 @@ function WeekTable() {
                 key={columnId}
               >
                 <h2>{column.name}</h2>
-                <div style={{ margin: 8 }}>
+                <div style={{ margin: 6 }}>
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => {
                       return (
@@ -99,7 +150,7 @@ function WeekTable() {
                               ? "lightblue"
                               : "lightgrey",
                             padding: 4,
-                            width: 250,
+                            width: 150,
                             minHeight: 500,
                           }}
                         >
@@ -146,6 +197,7 @@ function WeekTable() {
           })}
         </DragDropContext>
       </div>
+      <Button onClick={handleSave}>Save</Button>
     </div>
   );
 }
